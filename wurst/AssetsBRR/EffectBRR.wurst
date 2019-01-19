@@ -1,0 +1,4 @@
+package EffectBRR
+
+public class EffectBRR
+    static constant holyNovaImpact = "Effect\\HolyNova_Impact_Base.mdx"

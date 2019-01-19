@@ -1,0 +1,13 @@
+package Abil_HolyNovaConfig
+
+import public Assets
+
+@configurable public let SPELL_ID = 'A601'
+
+@configurable public let BASE_HEAL = 100.
+@configurable public let HEAL_INCREMENT = 25.
+@configurable public let BASE_DMG = 100.
+@configurable public let DMG_INCREMENT = 25.
+
+@configurable public let MIN_EFFECT_PERC = 0.35
+@configurable public let RADIUS = 300. 

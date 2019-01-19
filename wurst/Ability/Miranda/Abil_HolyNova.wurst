@@ -1,0 +1,31 @@
+package Abil_HolyNova
+
+import Abil_HolyNovaConfig
+import ClosureEvents
+import ClosureForGroups
+
+function calcDistanceFactor(unit caster, unit tar) returns real
+    var dist = tar.getPos().distanceTo(caster.getPos())
+    let f = (RADIUS-dist)/RADIUS
+    return f
+
+
+init
+    EventListener.onCast(SPELL_ID)(caster) ->
+        forUnitsInRange(caster.getPos(), RADIUS) u ->         
+            if u.getOwner() == caster.getOwner()
+            // Heal
+                var healVal = (caster.getAbilityLevel(SPELL_ID)-1) * HEAL_INCREMENT + BASE_HEAL
+                let f = calcDistanceFactor(caster, u)
+                healVal *= (1-MIN_EFFECT_PERC) * f + MIN_EFFECT_PERC
+                u.addHP(healVal)
+                addEffect(Abilities.healTarget, u, "origin")
+            else if not (IsUnitAlly(u, caster.getOwner()))
+            // Damage
+                var dmgVal = (caster.getAbilityLevel(SPELL_ID)-1) * DMG_INCREMENT + BASE_DMG
+                let f = calcDistanceFactor(caster, u)
+                dmgVal *= (1-MIN_EFFECT_PERC) * f + MIN_EFFECT_PERC
+                caster.damageTarget(u, dmgVal)
+            
+
+ 
