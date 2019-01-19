@@ -1,0 +1,12 @@
+package Abil_ArealDispellConfig
+
+import public Assets
+
+@configurable public let SPELL_ID = 'A603'
+@configurable public let DUMMY_SPELL_ID = 'A600'
+
+// Per target
+@configurable public let BASE_MANA_RECOVER = 25.
+// Level increment
+@configurable public let MANA_RECOVER_INCREMENT = 10.
+@configurable public let RADIUS = 250. 

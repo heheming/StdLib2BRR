@@ -1,0 +1,4 @@
+package HealingManager
+
+public function processHealing(real healVal) returns real
+    return healVal

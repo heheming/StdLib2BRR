@@ -1,0 +1,27 @@
+package Abil_ArealDispell
+
+import public OrderIds
+import Abil_ArealDispellConfig
+import ClosureEvents
+import ClosureForGroups
+import InstantDummyCaster
+
+class Abil_ArealDispell
+    static function getSpellId() returns int
+        return SPELL_ID
+
+int unitCnt = 0
+init  
+    EventListener.onPointCast(SPELL_ID)(caster, tpos) -> 
+        // Mana recover
+        unitCnt = 0
+        forUnitsInRange(tpos, RADIUS) u ->         
+            if UnitHasBuffsEx(u, true, true, false, false, false, false, false)
+                print("Unit " + u.getName() + "has buff")
+                unitCnt++
+        var manaRecover = unitCnt * (BASE_MANA_RECOVER + MANA_RECOVER_INCREMENT * caster.getAbilityLevel(SPELL_ID))
+        print("Recover " + manaRecover.toString() + " mana")
+        
+        // Dispell
+        InstantDummyCaster.castPoint(caster.getOwner(), DUMMY_SPELL_ID, 1, OrderIds.dispel, tpos, caster.getPos())
+        //InstantDummyCaster.castPoint(caster.getOwner(), DUMMY_SPELL_ID, 1, "dispel", pos, pos)

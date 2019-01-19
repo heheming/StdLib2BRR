@@ -1,0 +1,4 @@
+package DamageManager
+
+public function processDamage(real dmg) returns real
+    return dmg

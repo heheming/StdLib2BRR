@@ -1,0 +1,7 @@
+package CombatInfoManager
+
+public function displayDamageInfo(real val, bool isCritDmg)
+
+public function displayHealingInfo(real val)
+
+public function displayManaRecoverInfo(real val)

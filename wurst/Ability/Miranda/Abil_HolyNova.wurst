@@ -3,6 +3,7 @@ package Abil_HolyNova
 import Abil_HolyNovaConfig
 import ClosureEvents
 import ClosureForGroups
+import ManagerBase
 
 class Abil_HolyNova
     static function getSpellId() returns int
@@ -21,6 +22,7 @@ init
                 var healVal = (caster.getAbilityLevel(SPELL_ID)-1) * HEAL_INCREMENT + BASE_HEAL
                 let f = calcDistanceFactor(caster, u)
                 healVal *= (1-MIN_EFFECT_PERC) * f + MIN_EFFECT_PERC
+                healVal = processHealing(healVal)
                 u.addHP(healVal)
                 addEffect(Abilities.healTarget, u, "origin")
             else if not (IsUnitAlly(u, caster.getOwner()))
@@ -28,6 +30,7 @@ init
                 var dmgVal = (caster.getAbilityLevel(SPELL_ID)-1) * DMG_INCREMENT + BASE_DMG
                 let f = calcDistanceFactor(caster, u)
                 dmgVal *= (1-MIN_EFFECT_PERC) * f + MIN_EFFECT_PERC
+                dmgVal = processDamage(dmgVal)
                 caster.damageTarget(u, dmgVal)
             
 
