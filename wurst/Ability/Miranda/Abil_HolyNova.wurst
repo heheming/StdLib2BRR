@@ -4,11 +4,14 @@ import Abil_HolyNovaConfig
 import ClosureEvents
 import ClosureForGroups
 
+class Abil_HolyNova
+    static function getSpellId() returns int
+        return SPELL_ID
+
 function calcDistanceFactor(unit caster, unit tar) returns real
     var dist = tar.getPos().distanceTo(caster.getPos())
     let f = (RADIUS-dist)/RADIUS
     return f
-
 
 init
     EventListener.onCast(SPELL_ID)(caster) ->

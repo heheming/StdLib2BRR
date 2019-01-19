@@ -1,0 +1,6 @@
+package Abil_Miranda
+
+import Abil_HolyNova
+
+class Abil_Miranda
+    static constant holyNovaSpellId = Abil_HolyNova.getSpellId()
