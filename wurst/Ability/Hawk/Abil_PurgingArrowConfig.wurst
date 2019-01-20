@@ -1,0 +1,11 @@
+package Abil_PurgingArrowConfig
+
+@configurable public let SPELL_ID = 'A606'
+@configurable public let DUMMY_SPELL_ID = 'A60A'
+@configurable public let BASE_CHANCE = 0.18
+@configurable public let BONUS_CHANCE_MULTI = 2.
+
+@configurable public let BASE_DMG = 35. 
+@configurable public let DMG_INCREMENT = 10. 
+@configurable public let SUMMON_UNIT_BONUS_MULTI = 2.0
+@configurable public let ATK_TYPE = ATTACK_TYPE_MAGIC

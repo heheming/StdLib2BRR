@@ -1,0 +1,45 @@
+package Abil_PurgingArrow
+
+import Abil_PurgingArrowConfig
+import ClosureEvents
+import ManagerBase
+import OrderIds
+import InstantDummyCaster
+
+import CombatInfoManager
+
+class Abil_PurgingArrow
+    static function getSpellId() returns int 
+        return SPELL_ID
+    static function getBaseDamage(unit caster) returns real
+        return BASE_DMG + DMG_INCREMENT * (caster.getAbilityLevel(SPELL_ID)-1)
+
+init
+    EventListener.add(EVENT_UNIT_DAMAGED) ->
+        var attacker = GetEventDamageSource()
+        let u = GetTriggerUnit()
+        print("Purging arrow: ")
+        print("attacker = " + attacker.getName() + ", target = " + u.getName())
+
+        if attacker.hasAbility(SPELL_ID) and not IsUnitAlly(u, attacker.getOwner())
+            let dice = GetRandomReal(0., 1.) 
+            var chance = BASE_CHANCE
+            print("dice roll: " + dice.toString())
+
+            if UnitHasBuffsEx(u, true, false, false, false, false, false, false)
+                print("Unit " + u.getName() + "has positive buff")
+                chance *= BONUS_CHANCE_MULTI
+            
+            if dice <= chance
+                print("|cffff1122Apply purge|r")
+                // Apply purge
+                let abilLv = attacker.getAbilityLevel(SPELL_ID)
+                InstantDummyCaster.castTarget(attacker.getOwner(), DUMMY_SPELL_ID, abilLv, OrderIds.purge, u)
+                var dmgVal = Abil_PurgingArrow.getBaseDamage(attacker)
+                // Bonus to summoned unit
+                if u.isType(UNIT_TYPE_SUMMONED)
+                    dmgVal *= SUMMON_UNIT_BONUS_MULTI
+                dmgVal = processDamage(dmgVal)
+                attacker.damageTarget(u, dmgVal, ATK_TYPE)
+                CombatInfoManager.displayDamageInfo(dmgVal, false, u.getPos3Real())
+

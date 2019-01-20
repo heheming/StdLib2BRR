@@ -1,0 +1,8 @@
+package Abil_BloodLustConfig
+
+@configurable public let SPELL_ID = 'A60D'
+@configurable public let DUMMY_SPELL_ID = 'A60C'
+
+@configurable public let BASE_HEAL = 300.
+@configurable public let HEAL_INCREMENT = 100.
+@configurable public let RADIUS = 600. 

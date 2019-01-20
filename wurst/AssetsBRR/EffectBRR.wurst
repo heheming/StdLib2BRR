@@ -2,3 +2,4 @@ package EffectBRR
 
 public class EffectBRR
     static constant holyNovaImpact = "Effect\\HolyNova_Impact_Base.mdx"
+    static constant holyVortex = "Effect\\HolyBlast.mdx"

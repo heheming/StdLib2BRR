@@ -8,6 +8,7 @@ import public Assets
 @configurable public let HEAL_INCREMENT = 25.
 @configurable public let BASE_DMG = 100.
 @configurable public let DMG_INCREMENT = 25.
+@configurable public let ATK_TYPE = ATTACK_TYPE_MAGIC
 
 @configurable public let MIN_EFFECT_PERC = 0.35
 @configurable public let RADIUS = 300. 

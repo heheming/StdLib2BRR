@@ -1,0 +1,31 @@
+package Abil_LightingShot
+
+import Abil_LightingShotConfig
+import ClosureEvents
+import ClosureTimers
+import InstantDummyCaster
+import OrderIds
+import ManagerBase
+import CombatInfoManager
+
+class Abil_LightingShot
+    static function getSpellId() returns int
+        return SPELL_ID
+    static function getBaseDamage(unit caster) returns real
+        return BASE_DMG + DMG_INCREMENT * (caster.getAbilityLevel(SPELL_ID)-1)
+
+init
+    EventListener.onTargetCast(SPELL_ID) (caster, target) ->
+        let duration = caster.getPos().distanceTo(target.getPos())/PROJECTILE_SPD
+        let abilLv = caster.getAbilityLevel(SPELL_ID)
+        InstantDummyCaster.castTarget(caster.getOwner(), DUMMY_STUN_SPELL_ID, abilLv, OrderIds.thunderbolt, target)
+
+        doAfter(duration) ->
+            if target.isAlive()
+                // Dealing dmg
+                var dmgVal = Abil_LightingShot.getBaseDamage(caster)
+                dmgVal = processDamage(dmgVal)
+                caster.damageTarget(target, dmgVal, ATK_TYPE)
+                CombatInfoManager.displayDamageInfo(dmgVal, false, target.getPos3Real())
+                // Lighting shield
+                InstantDummyCaster.castTarget(caster.getOwner(), DUMMY_LIGHTING_SHD_SPELL_ID, abilLv, OrderIds.lightningshield, target, caster.getPos())

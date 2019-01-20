@@ -6,6 +6,8 @@ import ClosureEvents
 import ClosureForGroups
 import InstantDummyCaster
 
+import CombatInfoManager
+
 class Abil_ArealDispell
     static function getSpellId() returns int
         return SPELL_ID
@@ -21,6 +23,8 @@ init
                 unitCnt++
         var manaRecover = unitCnt * (BASE_MANA_RECOVER + MANA_RECOVER_INCREMENT * caster.getAbilityLevel(SPELL_ID))
         print("Recover " + manaRecover.toString() + " mana")
+        caster.addMana(manaRecover)
+        CombatInfoManager.displayManaRecoverInfo(manaRecover, caster.getPos3Real())
         
         // Dispell
         InstantDummyCaster.castPoint(caster.getOwner(), DUMMY_SPELL_ID, 1, OrderIds.dispel, tpos, caster.getPos())

@@ -1,0 +1,27 @@
+package Abil_BloodLust
+
+import Abil_BloodLustConfig
+import ClosureEvents
+import ClosureForGroups
+import ManagerBase
+import InstantDummyCaster
+import OrderIds
+import CombatInfoManager
+
+class Abil_BloodLust
+    static function getSpellId() returns int
+        return SPELL_ID
+    static function getBaseHeal(unit caster) returns real
+        return BASE_HEAL + HEAL_INCREMENT * (caster.getAbilityLevel(SPELL_ID)-1)
+
+init
+    EventListener.onCast(SPELL_ID) (caster) ->
+        forUnitsInRange(caster.getPos(), RADIUS) u ->
+            if u.getOwner() == caster.getOwner() and u.isAlive()
+                let abilLv = caster.getAbilityLevel(SPELL_ID)
+                InstantDummyCaster.castTarget(caster.getOwner(), DUMMY_SPELL_ID, abilLv, OrderIds.bloodlust, u)
+                // Heal
+                var healVal = Abil_BloodLust.getBaseHeal(caster)
+                processHealing(healVal)
+                u.addHP(healVal)
+                CombatInfoManager.displayHealingInfo(healVal, u.getPos3Real())

@@ -1,7 +1,28 @@
 package CombatInfoManager
 
-public function displayDamageInfo(real val, bool isCritDmg)
+import StringUtils
 
-public function displayHealingInfo(real val)
+@configurable public let COMBATINFO_TT_SIZE = 10.
 
-public function displayManaRecoverInfo(real val)
+class CombatInfoManager
+    static function displayDamageInfo(real val, bool _isCritDmg, vec3 pos) returns texttag
+        return displayInfo(pos, "-" + val.toInt().toString(), COMBATINFO_TT_SIZE, 255, 0, 0, 200)
+
+    static function displayHealingInfo(real val, vec3 pos) returns texttag
+        string msg = val.toInt().toString()
+        msg = "+" + msg
+        return displayInfo(pos, msg, COMBATINFO_TT_SIZE, 0, 0, 255, 200)
+        
+    static function displayManaRecoverInfo(real val, vec3 pos) returns texttag
+        string msg = val.toInt().toString()
+        msg = "+" + msg
+        return displayInfo(pos, msg, COMBATINFO_TT_SIZE, 0, 0, 255, 200)
+
+    static function displayInfo(vec3 pos, string msg, real size, int r, int g, int b, int a) returns texttag
+        let tt = createCenteredTexttag(pos, msg, size)
+        tt.setColor(r, g, b, a)
+        tt.setVelocity(0., 90.)
+        tt.setFadepoint(0.5)
+        tt.setLifespan(1.)
+        tt.setVisibility(true)
+        return tt

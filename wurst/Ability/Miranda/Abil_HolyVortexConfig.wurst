@@ -1,13 +1,11 @@
 package Abil_HolyVortexConfig
 
-import public Assets
+@configurable public let SPELL_ID = 'A604'
 
-@configurable public let SPELL_ID = 'A601'
-
-@configurable public let BASE_HEAL = 100.
-@configurable public let HEAL_INCREMENT = 25.
-@configurable public let BASE_DMG = 100.
-@configurable public let DMG_INCREMENT = 25.
+@configurable public let BASE_DMG = 400.
+@configurable public let DMG_INCREMENT = 80.
+@configurable public let ATK_TYPE = ATTACK_TYPE_MAGIC
 
 @configurable public let MIN_EFFECT_PERC = 0.35
 @configurable public let RADIUS = 300. 
+@configurable public let DURATION = 2.5

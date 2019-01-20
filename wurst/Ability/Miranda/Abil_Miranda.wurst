@@ -2,7 +2,9 @@ package Abil_Miranda
 
 import Abil_HolyNova
 import Abil_ArealDispell
+import Abil_HolyVortex
 
 class Abil_Miranda
     static constant holyNovaSpellId = Abil_HolyNova.getSpellId()
     static constant arealDispelSpellId = Abil_ArealDispell.getSpellId()
+    static constant holyVortexSpellId = Abil_HolyVortex.getSpellId()

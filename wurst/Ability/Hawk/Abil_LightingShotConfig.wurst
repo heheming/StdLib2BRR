@@ -1,0 +1,10 @@
+package Abil_LightingShotConfig
+
+@configurable public let SPELL_ID = 'A606'
+@configurable public let DUMMY_STUN_SPELL_ID = 'A605'
+@configurable public let DUMMY_LIGHTING_SHD_SPELL_ID = 'A607'
+
+@configurable public let BASE_DMG = 60.
+@configurable public let DMG_INCREMENT = 18.
+@configurable public let PROJECTILE_SPD = 1200.
+@configurable public let ATK_TYPE = ATTACK_TYPE_PIERCE

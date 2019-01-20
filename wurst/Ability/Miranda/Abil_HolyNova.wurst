@@ -5,6 +5,8 @@ import ClosureEvents
 import ClosureForGroups
 import ManagerBase
 
+import CombatInfoManager
+
 class Abil_HolyNova
     static function getSpellId() returns int
         return SPELL_ID
@@ -17,13 +19,14 @@ function calcDistanceFactor(unit caster, unit tar) returns real
 init
     EventListener.onCast(SPELL_ID)(caster) ->
         forUnitsInRange(caster.getPos(), RADIUS) u ->         
-            if u.getOwner() == caster.getOwner()
+            if u.getOwner() == caster.getOwner() and u != caster
             // Heal
                 var healVal = (caster.getAbilityLevel(SPELL_ID)-1) * HEAL_INCREMENT + BASE_HEAL
                 let f = calcDistanceFactor(caster, u)
                 healVal *= (1-MIN_EFFECT_PERC) * f + MIN_EFFECT_PERC
                 healVal = processHealing(healVal)
                 u.addHP(healVal)
+                CombatInfoManager.displayHealingInfo(healVal, u.getPos3Real())
                 addEffect(Abilities.healTarget, u, "origin")
             else if not (IsUnitAlly(u, caster.getOwner()))
             // Damage
@@ -31,7 +34,7 @@ init
                 let f = calcDistanceFactor(caster, u)
                 dmgVal *= (1-MIN_EFFECT_PERC) * f + MIN_EFFECT_PERC
                 dmgVal = processDamage(dmgVal)
-                caster.damageTarget(u, dmgVal)
+                caster.damageTarget(u, dmgVal, ATK_TYPE)
             
 
  

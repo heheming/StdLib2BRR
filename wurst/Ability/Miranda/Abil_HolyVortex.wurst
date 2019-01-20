@@ -1,2 +1,50 @@
 package Abil_HolyVortex
 
+import Abil_HolyVortexConfig
+import AssetsBRR
+import ClosureEvents
+import ClosureTimers
+import ClosureForGroups
+import ManagerBase
+import CombatInfoManager
+
+class Abil_HolyVortex
+    static function getSpellId() returns int
+        return SPELL_ID
+    static function getBaseDamage(unit caster) returns real
+        return BASE_DMG + DMG_INCREMENT * (caster.getAbilityLevel(SPELL_ID)-1)
+
+function calcDistanceFactor(vec2 center, unit tar) returns real
+    var dist = tar.getPos().distanceTo(center)
+    let f = (RADIUS-dist)/RADIUS
+    return f
+
+init
+    EventListener.onPointCast(SPELL_ID)(caster, tpos) ->
+        print("holy vortex cast")
+        let fx = addEffect(EffectBRR.holyVortex, tpos)
+        fx.setScale(0.6)
+        
+        doPeriodicallyTimed(0.1, 2.5) cb -> 
+            forUnitsInRange(tpos, RADIUS) u ->         
+                if not IsUnitAlly(u, caster.getOwner())
+                    caster.damageTarget(u, 0.1)
+                    // Apply drag force
+                    let ang = u.getPos().angleTo(tpos)
+                    let newPos = u.getPos().polarOffset(ang, 10.)
+                    u.setPos(newPos)
+        doAfter(DURATION) ->
+            if caster.isAlive()
+                forUnitsInRange(tpos, RADIUS) u ->         
+                    if (not IsUnitAlly(u, caster.getOwner())) and u.isAlive()
+                        let f = calcDistanceFactor(tpos, u)
+                        var dmg = f * Abil_HolyVortex.getBaseDamage(caster)
+                        print("factor = " + f.toString() + ", dmg = " + dmg.toString())
+                        dmg = processDamage(dmg)
+                        caster.damageTarget(u, dmg, ATK_TYPE)
+                        // for test only
+                        CombatInfoManager.displayDamageInfo(dmg, false, u.getPos3Real())
+        doAfter(DURATION+0.5) ->
+            DestroyEffect(fx)
+
+        
