@@ -18,20 +18,20 @@ init
     EventListener.add(EVENT_UNIT_DAMAGED) ->
         var attacker = GetEventDamageSource()
         let u = GetTriggerUnit()
-        print("Purging arrow: ")
-        print("attacker = " + attacker.getName() + ", target = " + u.getName())
+        //print("Purging arrow: ")
+        //print("attacker = " + attacker.getName() + ", target = " + u.getName())
 
         if attacker.hasAbility(SPELL_ID) and not IsUnitAlly(u, attacker.getOwner())
             let dice = GetRandomReal(0., 1.) 
             var chance = BASE_CHANCE
-            print("dice roll: " + dice.toString())
+           // print("dice roll: " + dice.toString())
 
             if UnitHasBuffsEx(u, true, false, false, false, false, false, false)
                 print("Unit " + u.getName() + "has positive buff")
                 chance *= BONUS_CHANCE_MULTI
             
             if dice <= chance
-                print("|cffff1122Apply purge|r")
+                //print("|cffff1122Apply purge|r")
                 // Apply purge
                 let abilLv = attacker.getAbilityLevel(SPELL_ID)
                 InstantDummyCaster.castTarget(attacker.getOwner(), DUMMY_SPELL_ID, abilLv, OrderIds.purge, u)

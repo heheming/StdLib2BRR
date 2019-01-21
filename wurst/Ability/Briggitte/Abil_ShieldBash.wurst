@@ -1,0 +1,28 @@
+package Abil_ShieldBash
+
+import Abil_ShieldBashConfig
+import ClosureEvents
+import ClosureTimers
+import ManagerBase
+import CombatInfoManager
+import HashMap
+
+let buffMap = new HashMap<unit, CallbackSingle>()
+
+init 
+    EventListener.onTargetCast(SPELL_ID) (caster, target) ->
+        // TODO: SFX
+        var dmgVal = Abil_ShieldBashConfig.getBaseDmg(caster)
+        dmgVal = processDamage(dmgVal)
+        caster.damageTarget(target, dmgVal, ATK_TYPE)
+        CombatInfoManager.displayDamageInfo(dmgVal, false, target.getPos3Real())
+        // Apply buff
+        caster.addAbility(Abil_ShieldBashConfig.getBuffAbilId())
+        if buffMap.has(caster)
+            destroy buffMap.get(caster)
+        let cb = doAfter(BUFF_DURATION) ->
+            if buffMap.has(caster)
+                buffMap.remove(caster)
+                caster.removeAbility(Abil_ShieldBashConfig.getBuffAbilId())
+                print("|cff33ff33Shield bash buff expired|r")
+        buffMap.put(caster, cb)

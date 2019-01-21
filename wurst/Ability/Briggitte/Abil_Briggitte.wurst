@@ -1,0 +1,5 @@
+package Abil_Briggitte
+
+import Abil_ShieldBash
+
+class Abil_Briggitte

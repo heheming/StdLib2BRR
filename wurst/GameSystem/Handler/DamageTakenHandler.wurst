@@ -1,0 +1,10 @@
+package DamageTakenHandler
+
+import HeroAbilityBase
+import ManagerBase
+import ClosureEvents
+
+init 
+    EventListener.add(EVENT_UNIT_DAMAGED) ->
+        let dmg = processIncomingDmg(GetTriggerUnit(), GetEventDamage())
+        BlzSetEventDamage(dmg)

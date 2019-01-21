@@ -4,6 +4,7 @@ import Abil_LightingShot
 import Abil_PurgingArrow
 import Abil_BloodLust
 
-class Abil_Miranda
+class Abil_Hawk
     static constant lightingShotSpellId = Abil_LightingShot.getSpellId()
     static constant purgingArrowSpellId = Abil_PurgingArrow.getSpellId()
+    static constant bloodLustSpellId = Abil_BloodLust.getSpellId()
