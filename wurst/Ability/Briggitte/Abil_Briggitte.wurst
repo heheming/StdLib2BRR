@@ -1,5 +1,7 @@
 package Abil_Briggitte
 
 import Abil_ShieldBash
+import Abil_DivineIntervention
+import Abil_HolyPrism
 
 class Abil_Briggitte

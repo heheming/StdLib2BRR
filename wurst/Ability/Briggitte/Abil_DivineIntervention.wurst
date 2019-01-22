@@ -1,0 +1,31 @@
+package Abil_DivineIntervention
+
+import AssetsBRR
+import Abil_DivineInterventionConfig
+import ClosureEvents
+import ClosureForGroups
+import Knockback3
+import OrderIds
+import InstantDummyCaster
+
+init 
+    EventListener.onTargetCast(SPELL_ID) (caster, target) ->
+        forUnitsInRange(target.getPos(), RADIUS) u ->
+            flashEffect(EffectBRR.holyExplode, target.getPos3Real())
+            if not IsUnitAlly(u, caster.getOwner())
+                /*
+                angle ang = target.getPos().angleTo(u.getPos())
+                print(ang.degrees())
+                Knockback3.add(u, 1000., 0 .fromDeg(), ang)
+                */
+                angle ang = target.getPos().angleTo(u.getPos())
+                print("angle = " + ang.degrees().toString(2))
+                var dist = Abil_DivineInterventionConfig.getBaseKnockbackDistance(caster)
+                dist += target.getPos().distanceTo(u.getPos())
+                print("dist = " + dist.toString(2))
+                let tpos = target.getPos().polarOffset(ang, dist)
+                Knockback3.add(u, tpos, 1000.)
+                // Apply stun
+                let abilLv = caster.getAbilityLevel(SPELL_ID)
+                InstantDummyCaster.castTarget(caster.getOwner(), DUMMY_STUN_SPELL_ID, abilLv, OrderIds.thunderbolt, u, target.getPos())
+

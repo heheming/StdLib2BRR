@@ -1,0 +1,20 @@
+package Abil_DivineInterventionConfig
+
+@configurable public let SPELL_ID = 'A60F'
+// 同闪电矢
+@configurable public let DUMMY_STUN_SPELL_ID = 'A60G'
+
+@configurable public let RADIUS = 250.
+@configurable public let BASE_KNOCK_BACK_DISTANCE = 175.
+@configurable public let KNOCK_BACK_DISTANCE_INCREMENT = 25.
+
+
+
+class Abil_DivineInterventionConfig
+    static function getSpellID() returns int
+        return SPELL_ID
+    static function getBaseKnockbackDistance(unit u) returns real
+        let abilLv = u.getAbilityLevel(SPELL_ID)
+        return BASE_KNOCK_BACK_DISTANCE + (abilLv-1) * KNOCK_BACK_DISTANCE_INCREMENT
+
+
