@@ -22,7 +22,11 @@ class CombatInfoManager
         let tt = createCenteredTexttag(pos, msg, size)
         tt.setColor(r, g, b, a)
         tt.setVelocity(0., 90.)
+        tt.setPermanent(false)
         tt.setFadepoint(0.5)
         tt.setLifespan(1.)
+        tt.setAge(1.)
         tt.setVisibility(true)
+        print("tt text = " + msg)
+        print(pos.toString())
         return tt

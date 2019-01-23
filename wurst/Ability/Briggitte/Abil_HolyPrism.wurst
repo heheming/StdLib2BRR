@@ -1,3 +1,27 @@
 package Abil_HolyPrism
 
 import Abil_HolyPrismConfig
+import ClosureEvents
+import ClosureForGroups
+import ClosureTimers
+import Assets
+import ManagerBase
+import CombatInfoManager
+
+init 
+    EventListener.onTargetCast(SPELL_ID) (caster, target) ->
+        var healVal = Abil_HolyPrismConfig.getBaseTargetHeal(caster)
+        healVal = processHealing(healVal)
+        target.addHP(healVal)
+        CombatInfoManager.displayHealingInfo(healVal, target.getPos3Real())
+
+        forUnitsInRange(target.getPos(), RADIUS) u ->
+            if IsUnitAlly(u, caster.getOwner())
+                let factor = u.getPos().distanceTo(target.getPos()) / RADIUS
+                healVal = Abil_HolyPrismConfig.getBaseAllyHeal(caster) * factor
+                healVal = processHealing(healVal)
+                u.addHP(healVal)
+                CombatInfoManager.displayHealingInfo(healVal, u.getPos3Real())
+                let lighting = addLightning(LIGHTNING_HEALING_WAWE_SEECONDARY, true, target.getPos(), u.getPos())
+                doAfter(0.5) ->
+                    lighting.destr()

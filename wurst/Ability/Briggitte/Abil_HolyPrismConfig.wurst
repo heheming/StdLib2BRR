@@ -1,3 +1,17 @@
 package Abil_HolyPrismConfig
 
+@configurable public let SPELL_ID = 'A60H'
+@configurable public let BASE_TARGET_HEAL = 200. 
+@configurable public let BASE_TARGET_HEAL_INCREMENT = 40. 
+@configurable public let BASE_ALLY_HEAL = 160. 
+@configurable public let BASE_ALLY_HEAL_INCREMENT = 30.
+@configurable public let RADIUS = 500. 
+
+
 class Abil_HolyPrismConfig
+    static function getSpellId() returns int
+        return SPELL_ID
+    static function getBaseTargetHeal(unit u) returns real
+        return BASE_TARGET_HEAL + (u.getAbilityLevel(SPELL_ID)-1) * BASE_TARGET_HEAL_INCREMENT
+    static function getBaseAllyHeal(unit u) returns real 
+        return BASE_ALLY_HEAL + (u.getAbilityLevel(SPELL_ID)-1) * BASE_ALLY_HEAL_INCREMENT

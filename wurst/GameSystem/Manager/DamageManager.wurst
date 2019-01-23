@@ -26,6 +26,8 @@ public function reduceByBuff(unit u) returns real
         let abilLv = u.getAbilityLevel(Abil_ShieldBashConfig.getSpellId())
         factor *= Abil_ShieldBashConfig.getDmgRecduceFactor(abilLv)
         print("Dmg reduce " + factor.toString(2) + " by sheild bash buff")
+    if (factor == 1.)
+        return 0.
     return factor
 
 
