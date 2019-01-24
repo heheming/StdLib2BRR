@@ -1,2 +1,4 @@
 package BuffBase
 
+import public PositiveBuff
+import public NegativeBuff

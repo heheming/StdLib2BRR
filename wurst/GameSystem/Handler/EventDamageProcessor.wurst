@@ -1,0 +1,46 @@
+package EventDamageProcessor
+
+import public ManagerBase
+import public HeroAbilityBase
+import public ClosureEvents
+
+// for damaged unit
+public function processIncomingDmg(unit u, real dmg) returns real
+    var dmgVal = dmg
+    let reduce = reduceByBuff(u)  
+    dmgVal *= (1-reduce).clamp(0, 1)
+    if (dmg != dmgVal)
+        print("Origin dmg = " + dmg.toString(2))
+        print("Post process dmg = " + dmgVal.toString(2))
+    return dmgVal
+
+    // Algo need to fix
+public function reduceByBuff(unit u) returns real
+    var factor = 1.
+    // Shield bash buff 
+    if (u.hasAbility(Abil_ShieldBashConfig.getBuffAbilId()))
+        let abilLv = u.getAbilityLevel(Abil_ShieldBashConfig.getSpellId())
+        factor *= Abil_ShieldBashConfig.getDmgRecduceFactor(abilLv)
+        //print("Dmg reduce " + factor.toString(2) + " by sheild bash buff")
+    // Divine Shelter
+    if (u.hasAbility(Abil_DivineShelterConfig.getBuffAbilId()))
+        factor *= Abil_DivineShelterConfig.getBaseDmgReduce(u)
+        print("Dmg reduce " + factor.toString(2) + " by divine shelter buff")
+
+    if (factor == 1.)
+        return 0.
+    return factor
+
+public function increaseByBuff(unit u) returns real
+    var factor = 1. 
+    // Divine Shelter
+    if (u.hasAbility(Abil_DivineShelterConfig.getBuffAbilId()))
+        factor *= 1. + Abil_DivineShelterConfig.getDebuffExtraDmgPerc()
+        print("|cffff1122Dmg increase " + (factor-1.).toString(2) + " by divine shelter debuff|r")
+    return factor
+
+init 
+    EventListener.add(EVENT_UNIT_DAMAGED) ->
+        let dmg = processIncomingDmg(GetTriggerUnit(), GetEventDamage())
+        BlzSetEventDamage(dmg)
+

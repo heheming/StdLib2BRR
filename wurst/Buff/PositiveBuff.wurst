@@ -1,0 +1,8 @@
+package PositiveBuff
+
+import Assets
+import AssetsBRR
+import BuffObjEditing
+
+public let holyShieldBuff = compiletime(createDummyBuffObject("盾击", "降低受到的伤害",	Icons.bTNHumanArmorUpThree, EffectBRR.holyShieldBuff, "overhead"))
+public let divineShelterBuff = compiletime(createDummyBuffObject("神圣庇护", "极大降低受到的伤害",	Icons.bTNInvulnerable, EffectBRR.divineProtection, "origin"))

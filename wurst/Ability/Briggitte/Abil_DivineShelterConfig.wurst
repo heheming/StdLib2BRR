@@ -1,2 +1,28 @@
 package Abil_DivineShelterConfig
 
+import BuffBase
+import BuffObjEditing
+
+@configurable public let SPELL_ID = 'A60I'
+// Both buff and debuff
+@configurable public let BUFF_DURATION = 10. 
+@configurable public let DEBUFF_DURA_DECREMENT = 1. 
+@configurable public let BASE_DMG_REDUCE = .7
+@configurable public let DEBUFF_EXTRA_DMG = .5
+@configurable public let DMG_REDUCE_INCREMENT = .04
+
+
+
+public class Abil_DivineShelterConfig
+    static function getSpellId() returns int
+        return SPELL_ID
+    static function getBuffAbilId() returns int
+        return divineShelterBuff.abilId
+    static function getDebuffAbilId() returns int
+        return divineShelterDebuff.abilId
+    static function getBaseDmgReduce(unit u) returns real 
+        return BASE_DMG_REDUCE + DMG_REDUCE_INCREMENT * (u.getAbilityLevel(SPELL_ID) - 1)
+    static function getBaseDebuffDuration(unit u) returns real 
+        return BUFF_DURATION - DEBUFF_DURA_DECREMENT * (u.getAbilityLevel(SPELL_ID) - 1)
+    static function getDebuffExtraDmgPerc() returns real
+        return DEBUFF_EXTRA_DMG

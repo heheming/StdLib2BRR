@@ -1,7 +1,8 @@
 package Abil_Briggitte
 
-import Abil_ShieldBash
-import Abil_DivineIntervention
-import Abil_HolyPrism
+import public Abil_ShieldBash
+import public Abil_DivineIntervention
+import public Abil_HolyPrism
+import public Abil_DivineShelter
 
 class Abil_Briggitte

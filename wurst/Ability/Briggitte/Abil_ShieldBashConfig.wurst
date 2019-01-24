@@ -1,8 +1,7 @@
 package Abil_ShieldBashConfig
 
-import Assets
-import AssetsBRR
-import public BuffObjEditing
+import BuffObjEditing
+import BuffBase
 
 // SPELL
 @configurable public let SPELL_ID = 'A60E'
@@ -16,17 +15,11 @@ import public BuffObjEditing
 @configurable public let BASE_REDUCE_DMG = 0.4
 @configurable public let REDUCE_DMG_INCREMENT = 0.03
 
-// BUFF
-@configurable public let BUFF_NAME = "盾击"
-@configurable public let BUFF_TT = "降低收到的伤害"
-
-public let BUFF_OBJ = compiletime(createDummyBuffObject(BUFF_NAME, BUFF_TT,	Icons.bTNHumanArmorUpThree, EffectBRR.holyShieldBuff, "overhead"))
-
-class Abil_ShieldBashConfig
+public class Abil_ShieldBashConfig
     static function getSpellId() returns int
         return SPELL_ID
     static function getBuffAbilId() returns int
-        return BUFF_OBJ.abilId
+        return holyShieldBuff.abilId
     static function getDmgRecduceFactor(int abilLv) returns real
         return BASE_REDUCE_DMG + REDUCE_DMG_INCREMENT * (abilLv-1) 
     static function getBaseDmg(unit u) returns real

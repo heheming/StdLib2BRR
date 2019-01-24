@@ -1,3 +1,30 @@
 package Abil_DivineShelter
 
-import Abil_DivineShelterConfig
+import public Abil_DivineShelterConfig
+import ClosureEvents
+import ClosureTimers
+import HashMap
+
+let buffMap = new HashMap<unit, CallbackSingle>()
+
+init
+    EventListener.onTargetCast(SPELL_ID) (caster, target) ->
+        target.addAbility(Abil_DivineShelterConfig.getBuffAbilId())
+        if buffMap.has(target)
+            destroy buffMap.get(target)
+
+        // debuff cb
+        let cb2 = doAfter(Abil_DivineShelterConfig.getBaseDebuffDuration(caster)) ->
+            if buffMap.has(target)
+                buffMap.remove(target)
+                target.removeAbility(Abil_DivineShelterConfig.getDebuffAbilId())
+            
+        // buff cb
+        let cb = doAfter(BUFF_DURATION) ->
+            if buffMap.has(target)
+                buffMap.remove(target)
+                target.removeAbility(Abil_DivineShelterConfig.getBuffAbilId())
+                // debuff
+                target.addAbility(Abil_DivineShelterConfig.getDebuffAbilId())
+                buffMap.put(target, cb2)
+        buffMap.put(target, cb)

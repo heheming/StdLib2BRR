@@ -1,0 +1,7 @@
+package NegativeBuff
+
+import Assets
+import AssetsBRR
+import BuffObjEditing
+
+public let divineShelterDebuff = compiletime(createDummyBuffObject("失去庇护", "提高受到的伤害",	Icons.bTNOrbOfDarkness, Abilities.orbDarkness, "overhead"))

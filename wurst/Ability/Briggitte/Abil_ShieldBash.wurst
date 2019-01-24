@@ -1,6 +1,6 @@
 package Abil_ShieldBash
 
-import Abil_ShieldBashConfig
+import public Abil_ShieldBashConfig
 import ClosureEvents
 import ClosureTimers
 import ManagerBase
