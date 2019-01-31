@@ -1,0 +1,32 @@
+package Abil_MeteorStrike
+
+import EffectBRR
+import public Abil_MeteorStrikeConfig
+import ClosureEvents
+import ClosureForGroups
+import ClosureTimers
+import ManagerBase
+import CombatInfoManager
+import Abil_KeepCalmConfig
+
+init 
+    EventListener.onPointCast(SPELL_ID) (caster, tpos) ->
+        doAfter(0.5) -> 
+            effect fx = addEffect(EffectBRR.meteorStrike ,tpos)
+            BlzSetSpecialEffectScale(fx, 0.5)
+            //fx.setScale(0.5)
+            doAfter(1.) ->
+                forUnitsInRange(tpos, RADIUS) u ->
+                    if not IsUnitAlly(u, caster.getOwner())
+                        let dist = u.getPos().distanceTo(tpos)
+                        var factor = (RADIUS - dist) / RADIUS * (1 - MIN_DMG_PERC) + MIN_DMG_PERC
+
+                        // 气定神闲buff
+                        let buffAbilId = Abil_KeepCalmConfig.getSpellId()
+                        if caster.hasAbility(buffAbilId)
+                        factor *= Abil_KeepCalmConfig.getFactor(caster)
+
+                        var dmg = Abil_MeteorStrikeConfig.getBaseDmg(caster) * factor
+                        dmg = processDamage(dmg)
+                        caster.damageTarget(u, dmg, ATK_TYPE)
+                        CombatInfoManager.displayDamageInfo(dmg, false, u.getPos3Real())

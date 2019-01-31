@@ -6,3 +6,4 @@ import BuffObjEditing
 
 public let holyShieldBuff = compiletime(createDummyBuffObject("盾击", "降低受到的伤害",	Icons.bTNHumanArmorUpThree, EffectBRR.holyShieldBuff, "overhead"))
 public let divineShelterBuff = compiletime(createDummyBuffObject("神圣庇护", "极大降低受到的伤害",	Icons.bTNInvulnerable, EffectBRR.divineProtection, "origin"))
+public let keepCalmBuff = compiletime(createDummyBuffObject("气定神闲", "重置一些技能的CD，并提高其造成的伤害",	Icons.bTNSilence, Abilities.soulBurnbuff, "overhead"))

@@ -1,0 +1,17 @@
+package Abil_DragonBreathConfig
+
+@configurable public let SPELL_ID = 'A60K'
+@configurable public let ANGLE = 135. 
+@configurable public let RADIUS = 400. 
+@configurable public let MIN_DMG_PERC = 0.33 
+
+@configurable public let ATK_TYPE = ATTACK_TYPE_MAGIC
+@configurable public let BASE_DMG = 225. 
+@configurable public let DMG_INCREMENT = 55. 
+
+
+class Abil_DragonBreathConfig
+    static function getSpellId() returns int 
+        return SPELL_ID
+    static function getBaseDamage(unit u) returns real 
+        return BASE_DMG + (u.getAbilityLevel(SPELL_ID)-1) * DMG_INCREMENT

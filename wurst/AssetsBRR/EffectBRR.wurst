@@ -6,3 +6,4 @@ public class EffectBRR
     static constant holyShieldBuff = "Effect\\HolyShield_Seal.mdx"
     static constant holyExplode = "Effect\\TheHolyBomb.mdx"
     static constant divineProtection = "Effect\\DivineProtection.mdx"
+    static constant meteorStrike = "Effect\\MeteorStrike.mdx" 

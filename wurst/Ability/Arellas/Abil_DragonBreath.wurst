@@ -1,0 +1,32 @@
+package Abil_DragonBreath
+
+import public Abil_DragonBreathConfig
+import ClosureEvents
+import ClosureForGroups
+import ManagerBase
+import CombatInfoManager
+import Abil_KeepCalmConfig
+
+
+init 
+    EventListener.onPointCast(SPELL_ID) (caster, tpos) ->
+        let tarAngle = caster.getPos().angleTo(tpos)
+        forUnitsInRange(tpos, RADIUS) u ->
+            if not IsUnitAlly(u, caster.getOwner())
+                // check angle
+                let curAngle = caster.getPos().angleTo(u.getPos())
+                print("angle = " + (curAngle - tarAngle).degrees().abs().toString())
+                if (curAngle - tarAngle).degrees().abs() < ANGLE*0.5 
+                    let dist = caster.getPos().distanceTo(u.getPos())
+                    var factor = (RADIUS - dist) / RADIUS * (1-MIN_DMG_PERC) + MIN_DMG_PERC
+
+                    // 气定神闲buff
+                    let buffAbilId = Abil_KeepCalmConfig.getSpellId()
+                    if caster.hasAbility(buffAbilId)
+                        factor *= Abil_KeepCalmConfig.getFactor(caster)
+
+                    var dmg = Abil_DragonBreathConfig.getBaseDamage(caster) * factor
+                    dmg = processDamage(dmg)
+                    caster.damageTarget(u, dmg, ATK_TYPE)
+                    CombatInfoManager.displayDamageInfo(dmg, false, u.getPos3Real())
+

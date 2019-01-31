@@ -3,3 +3,4 @@ package HeroAbilityBase
 import public Abil_Hawk
 import public Abil_Miranda
 import public Abil_Briggitte
+import public Abil_Arellas

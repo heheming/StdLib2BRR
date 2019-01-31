@@ -1,0 +1,25 @@
+package Abil_KeepCalm
+
+import Abil_DragonBreathConfig
+import Abil_MeteorStrikeConfig
+import ClosureEvents
+import ClosureTimers
+import public Abil_KeepCalmConfig
+
+init 
+    let thisSpellId = Abil_KeepCalmConfig.getSpellId()
+    EventListener.onCast(thisSpellId) (caster) ->
+        let buffAbilId = Abil_KeepCalmConfig.getBuffAbilId()
+        caster..addAbility(buffAbilId)
+                //..setAbilityLevel(buffAbilId, caster.getAbilityLevel(thisSpellId))
+        // reset cd for Q, W
+        if caster.hasAbility(Abil_DragonBreathConfig.getSpellId())
+            caster. resetAbilityCooldown(Abil_DragonBreathConfig.getSpellId())
+        if caster.hasAbility(Abil_MeteorStrikeConfig.getSpellId())
+            caster.resetAbilityCooldown(Abil_MeteorStrikeConfig.getSpellId())
+
+        doAfter(DURATION) ->
+            if IsUnitAliveBJ(caster)
+                caster.removeAbility(buffAbilId)
+
+    

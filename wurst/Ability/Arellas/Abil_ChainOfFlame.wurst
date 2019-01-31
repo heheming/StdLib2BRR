@@ -1,0 +1,30 @@
+package Abil_ChainOfFlame
+
+import public Abil_ChainOfFlameConfig
+import ClosureEvents
+import HashMap
+import ClosureTimers
+import CombatInfoManager
+import ManagerBase
+
+let unitMap = new HashMap<unit, CallbackPeriodic>()
+
+init 
+    EventListener.onTargetCast(SPELL_ID) (caster, target) ->
+        if unitMap.has(caster)
+            destroy unitMap.get(caster)
+        let cbPeriod = doPeriodically(1) cb -> 
+            if IsUnitAliveBJ(caster) and IsUnitAliveBJ(target)
+                var dmg = Abil_ChainOfFlameConfig.getBaseDmg(caster)
+                dmg = processDamage(dmg)
+                caster.damageTarget(target, dmg)
+                CombatInfoManager.displayDamageInfo(dmg, false, target.getPos3Real())
+            else
+                destroy unitMap.get(caster)
+        unitMap.put(caster, cbPeriod)
+        print("Start chain of flame")
+                           
+    EventListener.add(EVENT_PLAYER_UNIT_SPELL_ENDCAST) -> 
+        if unitMap.has(GetTriggerUnit())
+            destroy unitMap.get(GetTriggerUnit())
+            print("end chain of flame")

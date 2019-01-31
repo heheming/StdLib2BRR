@@ -6,6 +6,7 @@ import ClosureTimers
 import ManagerBase
 import CombatInfoManager
 import HashMap
+import OrderIds
 
 let buffMap = new HashMap<unit, CallbackSingle>()
 
@@ -26,3 +27,4 @@ init
                 caster.removeAbility(Abil_ShieldBashConfig.getBuffAbilId())
                 print("|cff33ff33Shield bash buff expired|r")
         buffMap.put(caster, cb)
+        IssueTargetOrderById(target, OrderIds.attack, caster)

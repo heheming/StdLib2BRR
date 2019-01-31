@@ -1,0 +1,12 @@
+package Abil_ChainOfFlameConfig
+
+@configurable public let SPELL_ID = 'A60L'
+@configurable public let BASE_TICKING_DMG = 50. 
+@configurable public let TICKING_DMG_INCREMENT = 8. 
+// Duration is base on ability config
+
+class Abil_ChainOfFlameConfig
+    static function getSpellId() returns int 
+        return SPELL_ID
+    static function getBaseDmg(unit u) returns real 
+        return BASE_TICKING_DMG + (u.getAbilityLevel(SPELL_ID)-1) * TICKING_DMG_INCREMENT

@@ -1,0 +1,17 @@
+package Abil_KeepCalmConfig
+
+import BuffBase
+import BuffObjEditing
+
+@configurable let SPELL_ID = 'A60M'
+@configurable public let BASE_BONUS_PERC = 0.5 
+@configurable public let BONUS_INCREMENT = 0.075
+@configurable public let DURATION = 10. 
+
+class Abil_KeepCalmConfig
+    static function getSpellId() returns int 
+        return SPELL_ID
+    static function getBuffAbilId() returns int 
+        return keepCalmBuff.abilId
+    static function getFactor(unit u) returns real 
+        return 1 + BASE_BONUS_PERC + (u.getAbilityLevel(SPELL_ID)-1) * BONUS_INCREMENT

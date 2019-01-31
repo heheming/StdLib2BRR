@@ -1,0 +1,14 @@
+package Abil_MeteorStrikeConfig
+
+@configurable public let SPELL_ID = 'A60J'
+@configurable public let RADIUS = 300. 
+@configurable public let BASE_DMG = 200. 
+@configurable public let DMG_INCREMENT = 45. 
+@configurable public let MIN_DMG_PERC = 0.25
+@configurable public let ATK_TYPE = ATTACK_TYPE_MAGIC
+
+public class Abil_MeteorStrikeConfig
+    static function getSpellId() returns int 
+        return SPELL_ID
+    static function getBaseDmg(unit u) returns real 
+        return BASE_DMG + (u.getAbilityLevel(SPELL_ID)-1) * DMG_INCREMENT
